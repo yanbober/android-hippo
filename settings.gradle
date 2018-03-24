@@ -1,0 +1,1 @@
+include ':demo-app', ':hippo-compiler', ':hippo-annotations', ':hippo'
