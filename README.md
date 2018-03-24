@@ -18,7 +18,7 @@ public class BaseBroadcastReceiver extends BroadcastReceiver {
 ```
 
 使用 android-hippo 河马后的优雅写法如下：
-```
+```java
 public class BaseBroadcastReceiver extends BroadcastReceiver {
     @OnReceive(action = {Intent.ACTION_CHOOSER, Intent.ACTION_BATTERY_LOW})
     public void bcChooseOrBatteryLow(Context context, Intent intent) {

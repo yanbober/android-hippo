@@ -4,7 +4,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
     implementation 'com.squareup:javapoet:1.10.0'
-    api project(':hippo-annotations')
+    implementation project(':hippo-annotations')
 }
 
 apply plugin: 'com.github.dcendents.android-maven'
