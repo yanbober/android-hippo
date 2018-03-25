@@ -1,5 +1,7 @@
 # android-hippo
 
+[![](https://jitpack.io/v/yanbober/android-hippo.svg)](https://jitpack.io/#yanbober/android-hippo)
+
 河马是一个基于依赖注解的 Android 核心 case 方法优雅写法库。
 
 平时写广播接收的处理是如下写法：
@@ -39,6 +41,24 @@ public class BaseBroadcastReceiver extends BroadcastReceiver {
 其他更多 case 支持参见 API 列表。
 
 ## 配置
+
+在你的 root build.gradle 中添加如下脚本片段：
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+在你需要用 andrond-hippo 的模块添加如下依赖片段：
+```gradle
+dependencies {
+    compile 'com.github.yanbober.android-hippo:hippo:1.0.3'
+    annotationProcessor 'com.github.yanbober.android-hippo:hippo-compiler:1.0.3'
+}
+```
 
 ## 使用
 

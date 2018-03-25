@@ -26,6 +26,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation project(':hippo')
-    annotationProcessor project(':hippo-compiler')
+    implementation 'com.github.yanbober.android-hippo:hippo:1.0.3'
+    annotationProcessor 'com.github.yanbober.android-hippo:hippo-compiler:1.0.3'
 }
