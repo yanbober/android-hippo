@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/yanbober/android-hippo.svg)](https://jitpack.io/#yanbober/android-hippo)
 
-河马是一个基于依赖注解的 Android 核心 case 方法优雅写法库。
+河马是一个基于依赖注解的 Android 核心 case 方法优雅写法库，避免了多 case 的 switch 或者 if 条件判断，规避了条件判断中 equals 方法潜在空指针问题。
 
 平时写广播接收的处理是如下写法：
 ```java
