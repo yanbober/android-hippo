@@ -11,16 +11,29 @@
 
     <Button
         android:id="@+id/sync_bc_test"
-        android:text="Sync Broadcast Test"
+        android:text="java Sync Broadcast Test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/activty_state_test"
-        android:text="State Test"
+        android:text="java State Test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"/>
 
+    <Button
+        android:id="@+id/sync_bc_test_kotlin"
+        android:text="kotlin Sync Broadcast Test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/activty_state_test_kotlin"
+        android:text="kotlin State Test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

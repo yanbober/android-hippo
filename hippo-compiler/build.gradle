@@ -1,11 +1,16 @@
-apply plugin: 'java-library'
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation("androidx.room:room-compiler-processing:2.4.2")
+    implementation "com.google.devtools.ksp:symbol-processing:1.6.21-1.0.5"
+    implementation 'com.google.devtools.ksp:symbol-processing-api:1.6.21-1.0.5'
     implementation 'com.squareup:javapoet:1.10.0'
-    compile project(':hippo-annotations')
+    implementation project(':hippo-annotations')
 }
 
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 group='com.github.yanbober'

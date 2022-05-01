@@ -23,6 +23,7 @@
  */
 package cn.yan.hippo.compiler.process;
 
+import androidx.room.compiler.processing.XAnnotation;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -30,16 +31,13 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.processing.Filer;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 
 /**
  * Annotation class bean.
@@ -67,22 +65,20 @@ public abstract class AnnotationClass {
         return mAnnotationMethodMap;
     }
 
-    public AnnotationClass(Elements elementUtils, TypeElement typeElement) {
-        String targetType = typeElement.getQualifiedName().toString();
-        String classPackage = getPacakgeName(elementUtils, typeElement);
-        String className = getClassName(typeElement, classPackage) + "_HippoProxy";
+    public AnnotationClass(String classPackage, String className, String targetType) {
         this.mPackage = classPackage;
         this.mName = className;
         this.mTarget = targetType;
         this.mAnnotationMethodMap = new HashMap<>();
     }
 
-    public void create(Element element, Class<? extends Annotation> annotationClass) {
-        AnnotationMethod method = new AnnotationMethod(element, annotationClass);
-        List<AnnotationMethod> annotationTypedMethods = mAnnotationMethodMap.get(annotationClass.getSimpleName());
+    public void create(String methodName, XAnnotation methodAnnotation) {
+        AnnotationMethod method = new AnnotationMethod(methodName, methodAnnotation);
+        String simpleName = methodAnnotation.getName();
+        List<AnnotationMethod> annotationTypedMethods = mAnnotationMethodMap.get(simpleName);
         if (annotationTypedMethods == null) {
             annotationTypedMethods = new ArrayList<>();
-            mAnnotationMethodMap.put(annotationClass.getSimpleName(), annotationTypedMethods);
+            mAnnotationMethodMap.put(simpleName, annotationTypedMethods);
         }
 
         //TODO check repeat values?
@@ -90,6 +86,10 @@ public abstract class AnnotationClass {
     }
 
     public void writeTo(Filer filer) throws IOException {
+        generateJavaFile().writeTo(filer);
+    }
+
+    public JavaFile generateJavaFile() {
         ClassName targetClassName = ClassName.get(mPackage, mTarget);
         TypeSpec.Builder typeSpec = TypeSpec.classBuilder(mName)
                 .addModifiers(Modifier.PUBLIC)
@@ -101,20 +101,10 @@ public abstract class AnnotationClass {
         List<TypeName> typeNameList = generateSuperInterface();
         typeSpec.addSuperinterfaces(typeNameList);
 
-        JavaFile javaFile = JavaFile.builder(mPackage, typeSpec.build()).build();
-        javaFile.writeTo(filer);
+        return JavaFile.builder(mPackage, typeSpec.build()).build();
     }
 
     protected abstract List<TypeName> generateSuperInterface();
 
     protected abstract List<MethodSpec> generateMethods();
-
-    private String getPacakgeName(Elements elementUtils, TypeElement typeElement) {
-        return elementUtils.getPackageOf(typeElement).getQualifiedName().toString();
-    }
-
-    private String getClassName(TypeElement typeElement, String packageName) {
-        int packageLength = packageName.length() + 1;
-        return typeElement.getQualifiedName().toString().substring(packageLength).replace(".", "$");
-    }
 }

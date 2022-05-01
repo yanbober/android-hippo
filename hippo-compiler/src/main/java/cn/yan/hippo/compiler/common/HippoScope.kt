@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2018 yanbo
+ * Copyright (c) 2022 yanbo
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,27 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cn.yan.hippo.compiler.process;
+package cn.yan.hippo.compiler.common
 
-import androidx.room.compiler.processing.XAnnotation;
+import cn.yan.hippo.annotations.*
+
 /**
- * Annotation method bean.
+ *
+ * @author yanbo1
  */
 
-public final class AnnotationMethod {
-    private final String mMethodName;
-    private final XAnnotation mMethodAnnotation;
-
-    public AnnotationMethod(String methodName, XAnnotation methodAnnotation) {
-        this.mMethodName = methodName;
-        this.mMethodAnnotation = methodAnnotation;
-    }
-
-    public XAnnotation getMethodAnnotation() {
-        return mMethodAnnotation;
-    }
-
-    public String getMethodName() {
-        return mMethodName;
-    }
+internal fun getSupportedAnnotations(): Set<String> {
+    return setOf<String>(
+        OnTrimMemory::class.java.name,
+        OnKeyDown::class.java.name,
+        OnKeyUp::class.java.name,
+        OnKeyLongPress::class.java.name,
+        OnKeyMultiple::class.java.name,
+        OnKeyShortcut::class.java.name,
+        OnActivityResult::class.java.name,
+        OnRequestPermissionsResult::class.java.name,
+        OnReceive::class.java.name,
+    )
 }

@@ -23,6 +23,7 @@
  */
 package cn.yan.hippo.compiler.process;
 
+import androidx.room.compiler.processing.XAnnotation;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -31,8 +32,6 @@ import com.squareup.javapoet.TypeVariableName;
 import java.util.ArrayList;
 import java.util.List;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 import cn.yan.hippo.annotations.OnActivityResult;
 import cn.yan.hippo.annotations.OnKeyDown;
 import cn.yan.hippo.annotations.OnKeyLongPress;
@@ -47,9 +46,8 @@ import cn.yan.hippo.annotations.OnTrimMemory;
  */
 
 public final class ActivityFragmentAnnotationClass extends AnnotationClass {
-
-    public ActivityFragmentAnnotationClass(Elements elementUtils, TypeElement typeElement) {
-        super(elementUtils, typeElement);
+    public ActivityFragmentAnnotationClass(String classPackage, String className, String targetType) {
+        super(classPackage, className, targetType);
     }
 
     @Override
@@ -96,12 +94,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnActivityResult onActivityResult = (OnActivityResult) method.getMethodAnnotation();
-            int[] requestCodes = onActivityResult.requestCode();
-            Object[] objectRequestCodes = new Object[requestCodes.length];
+            XAnnotation onActivityResult = method.getMethodAnnotation();
+            List<Integer> requestCodes = onActivityResult.getAsIntList("requestCode");
+            Object[] objectRequestCodes = new Object[requestCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<requestCodes.length; index++) {
-                objectRequestCodes[index] = requestCodes[index];
+            for (int index=0; index<requestCodes.size(); index++) {
+                objectRequestCodes[index] = requestCodes.get(index);
                 conditionBuilder.append("$L == requestCode");
                 conditionBuilder.append(" || ");
             }
@@ -136,12 +134,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod binding : annotationMethods) {
-            OnRequestPermissionsResult onRequestPermissionsResult = (OnRequestPermissionsResult) binding.getMethodAnnotation();
-            int[] requestCodes = onRequestPermissionsResult.requestCode();
-            Object[] objectRequestCodes = new Object[requestCodes.length];
+            XAnnotation onRequestPermissionsResult = binding.getMethodAnnotation();
+            List<Integer> requestCodes = onRequestPermissionsResult.getAsIntList("requestCode");
+            Object[] objectRequestCodes = new Object[requestCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<requestCodes.length; index++) {
-                objectRequestCodes[index] = requestCodes[index];
+            for (int index=0; index<requestCodes.size(); index++) {
+                objectRequestCodes[index] = requestCodes.get(index);
                 conditionBuilder.append("$L == requestCode");
                 conditionBuilder.append(" || ");
             }
@@ -174,12 +172,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnTrimMemory onTrimMemory = (OnTrimMemory) method.getMethodAnnotation();
-            int[] requestCodes = onTrimMemory.level();
-            Object[] objectRequestCodes = new Object[requestCodes.length];
+            XAnnotation onTrimMemory = method.getMethodAnnotation();
+            List<Integer> requestCodes = onTrimMemory.getAsIntList("level");
+            Object[] objectRequestCodes = new Object[requestCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<requestCodes.length; index++) {
-                objectRequestCodes[index] = requestCodes[index];
+            for (int index=0; index<requestCodes.size(); index++) {
+                objectRequestCodes[index] = requestCodes.get(index);
                 conditionBuilder.append("$L == level");
                 conditionBuilder.append(" || ");
             }
@@ -214,12 +212,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnKeyDown onKeyDown = (OnKeyDown) method.getMethodAnnotation();
-            int[] keyCodes = onKeyDown.keyCode();
-            Object[] objectRequestCodes = new Object[keyCodes.length];
+            XAnnotation onKeyDown = method.getMethodAnnotation();
+            List<Integer> keyCodes = onKeyDown.getAsIntList("keyCode");
+            Object[] objectRequestCodes = new Object[keyCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<keyCodes.length; index++) {
-                objectRequestCodes[index] = keyCodes[index];
+            for (int index=0; index<keyCodes.size(); index++) {
+                objectRequestCodes[index] = keyCodes.get(index);
                 conditionBuilder.append("$L == keyCode");
                 conditionBuilder.append(" || ");
             }
@@ -255,12 +253,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnKeyUp onKeyUp = (OnKeyUp) method.getMethodAnnotation();
-            int[] keyCodes = onKeyUp.keyCode();
-            Object[] objectRequestCodes = new Object[keyCodes.length];
+            XAnnotation onKeyUp = method.getMethodAnnotation();
+            List<Integer> keyCodes = onKeyUp.getAsIntList("keyCode");
+            Object[] objectRequestCodes = new Object[keyCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<keyCodes.length; index++) {
-                objectRequestCodes[index] = keyCodes[index];
+            for (int index=0; index<keyCodes.size(); index++) {
+                objectRequestCodes[index] = keyCodes.get(index);
                 conditionBuilder.append("$L == keyCode");
                 conditionBuilder.append(" || ");
             }
@@ -296,12 +294,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnKeyLongPress onKeyLongPress = (OnKeyLongPress) method.getMethodAnnotation();
-            int[] keyCodes = onKeyLongPress.keyCode();
-            Object[] objectRequestCodes = new Object[keyCodes.length];
+            XAnnotation onKeyLongPress = method.getMethodAnnotation();
+            List<Integer> keyCodes = onKeyLongPress.getAsIntList("keyCode");
+            Object[] objectRequestCodes = new Object[keyCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<keyCodes.length; index++) {
-                objectRequestCodes[index] = keyCodes[index];
+            for (int index=0; index<keyCodes.size(); index++) {
+                objectRequestCodes[index] = keyCodes.get(index);
                 conditionBuilder.append("$L == keyCode");
                 conditionBuilder.append(" || ");
             }
@@ -338,12 +336,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnKeyMultiple onKeyMultiple = (OnKeyMultiple) method.getMethodAnnotation();
-            int[] keyCodes = onKeyMultiple.keyCode();
-            Object[] objectRequestCodes = new Object[keyCodes.length];
+            XAnnotation onKeyMultiple = method.getMethodAnnotation();
+            List<Integer> keyCodes = onKeyMultiple.getAsIntList("keyCode");
+            Object[] objectRequestCodes = new Object[keyCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<keyCodes.length; index++) {
-                objectRequestCodes[index] = keyCodes[index];
+            for (int index=0; index<keyCodes.size(); index++) {
+                objectRequestCodes[index] = keyCodes.get(index);
                 conditionBuilder.append("$L == keyCode");
                 conditionBuilder.append(" || ");
             }
@@ -379,12 +377,12 @@ public final class ActivityFragmentAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnKeyShortcut onKeyShortcut = (OnKeyShortcut) method.getMethodAnnotation();
-            int[] keyCodes = onKeyShortcut.keyCode();
-            Object[] objectRequestCodes = new Object[keyCodes.length];
+            XAnnotation onKeyShortcut = method.getMethodAnnotation();
+            List<Integer> keyCodes = onKeyShortcut.getAsIntList("keyCode");
+            Object[] objectRequestCodes = new Object[keyCodes.size()];
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (int index=0; index<keyCodes.length; index++) {
-                objectRequestCodes[index] = keyCodes[index];
+            for (int index=0; index<keyCodes.size(); index++) {
+                objectRequestCodes[index] = keyCodes.get(index);
                 conditionBuilder.append("$L == keyCode");
                 conditionBuilder.append(" || ");
             }

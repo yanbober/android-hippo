@@ -21,27 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cn.yan.hippo.compiler.process;
+package cn.yan.hippo.compiler;
 
-import androidx.room.compiler.processing.XAnnotation;
+import androidx.room.compiler.processing.XMessager;
+import androidx.room.compiler.processing.XProcessingEnv;
+import androidx.room.compiler.processing.XProcessingStep;
+import androidx.room.compiler.processing.javac.JavacBasicAnnotationProcessor;
+import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import cn.yan.hippo.compiler.common.HippoProcessingStep;
+
 /**
- * Annotation method bean.
+ * Hippo compile process.
  */
+public final class JavaHippoProcessor extends JavacBasicAnnotationProcessor {
+    private XMessager xMessager;
 
-public final class AnnotationMethod {
-    private final String mMethodName;
-    private final XAnnotation mMethodAnnotation;
-
-    public AnnotationMethod(String methodName, XAnnotation methodAnnotation) {
-        this.mMethodName = methodName;
-        this.mMethodAnnotation = methodAnnotation;
+    @Override
+    public void initialize(@NotNull XProcessingEnv env) {
+        super.initialize(env);
+        this.xMessager = env.getMessager();
     }
 
-    public XAnnotation getMethodAnnotation() {
-        return mMethodAnnotation;
-    }
-
-    public String getMethodName() {
-        return mMethodName;
+    @NotNull
+    @Override
+    public Iterable<XProcessingStep> processingSteps() {
+        List<XProcessingStep> steps = new ArrayList<>();
+        steps.add(new HippoProcessingStep(this.xMessager));
+        return steps;
     }
 }

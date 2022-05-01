@@ -23,6 +23,7 @@
  */
 package cn.yan.hippo.compiler.process;
 
+import androidx.room.compiler.processing.XAnnotation;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -31,8 +32,6 @@ import com.squareup.javapoet.TypeVariableName;
 import java.util.ArrayList;
 import java.util.List;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 import cn.yan.hippo.annotations.OnReceive;
 
 /**
@@ -40,9 +39,8 @@ import cn.yan.hippo.annotations.OnReceive;
  */
 
 public final class BroadcastReceiverAnnotationClass extends AnnotationClass {
-
-    public BroadcastReceiverAnnotationClass(Elements elementUtils, TypeElement typeElement) {
-        super(elementUtils, typeElement);
+    public BroadcastReceiverAnnotationClass(String classPackage, String className, String targetType) {
+        super(classPackage, className, targetType);
     }
 
     @Override
@@ -82,21 +80,20 @@ public final class BroadcastReceiverAnnotationClass extends AnnotationClass {
 
         boolean firstCondition = true;
         for (AnnotationMethod method : annotationMethods) {
-            OnReceive onReceive = (OnReceive) method.getMethodAnnotation();
-            Object[] actions = onReceive.action();
-
+            XAnnotation onReceive = method.getMethodAnnotation();
+            List<String> actions = onReceive.getAsStringList("action");
             StringBuilder conditionBuilder = new StringBuilder("");
-            for (Object action : actions) {
+            for (String action : actions) {
                 conditionBuilder.append("\"$L\".equals(intent.getAction())");
                 conditionBuilder.append(" || ");
             }
             String condition = conditionBuilder.substring(0, conditionBuilder.length() - " || ".length());
 
             if (firstCondition) {
-                builder.beginControlFlow("if (" + condition + ")", actions);
+                builder.beginControlFlow("if (" + condition + ")", actions.toArray());
                 firstCondition = false;
             } else {
-                builder.nextControlFlow("else if (" + condition + ")", actions);
+                builder.nextControlFlow("else if (" + condition + ")", actions.toArray());
             }
             builder.addStatement("target.$L(context, intent)", method.getMethodName());
         }

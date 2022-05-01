@@ -12,16 +12,21 @@
         <activity android:name=".DemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity android:name=".activity.HippoActivity"></activity>
+        <activity android:name=".activity.HippoKotlinActivity"></activity>
 
         <receiver android:name=".broadcast.SyncBroadcastReceiver">
             <intent-filter>
                 <action android:name="cn.yan.demo.test.actionTest"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".broadcast.SyncKotlinBroadcastReceiver">
+            <intent-filter>
+                <action android:name="cn.yan.demo.test.actionKotlinTest"/>
             </intent-filter>
         </receiver>
     </application>
