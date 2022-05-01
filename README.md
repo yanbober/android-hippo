@@ -4,6 +4,13 @@
 
 河马是一个基于依赖注解的 Android 核心 case 方法优雅写法库，避免了多 case 的 switch 或者 if 条件判断，规避了条件判断中 equals 方法潜在空指针问题。
 
+使用 google 的 X Processing 作为中间抽象层，通过一套逻辑代码实现 annotationProcessor/kapt 与 ksp 的兼容。
+
+特性支持情况：
+- 支持纯 java 项目的 annotationProcessor 模式。
+- 支持纯 kotlin 项目的 kapt 或 ksp 模式。
+- 支持 java 与 kotlin 混编项目的 kapt 或 ksp 模式。
+
 平时写广播接收的处理是如下写法：
 ```java
 public class BaseBroadcastReceiver extends BroadcastReceiver {
@@ -55,8 +62,10 @@ allprojects {
 在你需要用 andrond-hippo 的模块添加如下依赖片段：
 ```gradle
 dependencies {
-    compile 'com.github.yanbober.android-hippo:hippo:1.0.3'
-    annotationProcessor 'com.github.yanbober.android-hippo:hippo-compiler:1.0.3'
+    compile 'com.github.yanbober.android-hippo:hippo:[VERSION]'
+    annotationProcessor 'com.github.yanbober.android-hippo:hippo-compiler:[VERSION]' //java
+    kapt 'com.github.yanbober.android-hippo:hippo-compiler:[VERSION]' //kotlin & java
+    ksp 'com.github.yanbober.android-hippo:hippo-compiler:[VERSION]' //kotlin & java
 }
 ```
 
