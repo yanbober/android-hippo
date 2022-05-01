@@ -4,5 +4,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-apply plugin: 'maven-publish'
-group='com.github.yanbober'
+apply from: rootProject.file('gradle/maven-publish.gradle')

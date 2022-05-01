@@ -1,0 +1,13 @@
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.github.yanbober'
+                artifactId = project.name
+                version = project.version
+            }
+        }
+    }
+}
